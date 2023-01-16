@@ -8,51 +8,33 @@
 import SwiftUI
 
 struct CategoryDetailsView: View {
-  
   @Environment(\.managedObjectContext) private var viewContext
-  
   @FetchRequest(
     sortDescriptors: [NSSortDescriptor(keyPath: \Category.name, ascending: true) ],
       animation: .default)
   private var categories: FetchedResults<Category>
-  
-  @State private var showAddCategory: Bool = false
-  
+  @State private var editingCategoryName: String = ""
   @State private var newCategoryName = String()
+  @FocusState private var inputsFocused: Bool
     var body: some View {
-    
         List {
           ForEach(categories) { cat in
-            Text(cat.name!)
-          }.onDelete(perform: deleteCategory)
+            CategoryRow(category: cat, inputsFocused: $inputsFocused)
+          }
+          TextField("New category name", text: $newCategoryName).autocorrectionDisabled(true).onSubmit{
+            saveCategory()
+          }.focused($inputsFocused)
+         
         }.navigationTitle("Categories").navigationBarTitleDisplayMode(.inline)
-        HStack {
-          Button("Add category") {
-            showAddCategory.toggle()
-          }.bold().sheet(isPresented: $showAddCategory) {
-            NavigationStack {
-              Form {
-                Section {
-                  TextField("Category name", text: $newCategoryName).autocorrectionDisabled(true)
-                }.navigationBarTitle("New category", displayMode: .inline ).toolbar {
-                  ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                      showAddCategory.toggle()
-                    }
-                  }
-                  ToolbarItem {
-                    Button("Save"){
-                      saveCategory()
-                      showAddCategory.toggle()
-                    }.disabled(newCategoryName.isEmpty)
-                  }
-                }
+        .toolbar{
+          if inputsFocused {
+            ToolbarItem {
+              Button("Done") {
+                inputsFocused = false
               }
             }
           }
-          Spacer()
-        }.padding()
-      
+        }
     }
   
   private func saveCategory() {
@@ -61,6 +43,7 @@ struct CategoryDetailsView: View {
     newCategory.name = newCategoryName
     do {
       try viewContext.save()
+      newCategoryName = ""
     } catch {
       let nsError = error as NSError
       fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
@@ -68,8 +51,32 @@ struct CategoryDetailsView: View {
   }
 }
 
-// MARK: Delete category
+struct CategoryRow:View {
+  var category: Category
+  @State private var editingCategory = "<empty"
+  var inputsFocused: FocusState<Bool>.Binding
+  @Environment(\.managedObjectContext) private var viewContext
+  var body: some View {
+    TextField("Name", text: $editingCategory).onAppear{
+      editingCategory = category.name ?? "<empty>"
+    }.onChange(of: editingCategory) { value in
+      category.name = value
+      saveCategory()
+    }.focused(inputsFocused)
+  }
+  
+  private func saveCategory() {
+    do {
+        try viewContext.save()
+    } catch {
+        let nsError = error as NSError
+        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+    }
+  }
+}
 
+// MARK: Delete category - out of scope
+/*
 extension CategoryDetailsView {
   private func deleteCategory(offsets: IndexSet) {
       withAnimation {
@@ -83,10 +90,12 @@ extension CategoryDetailsView {
       }
   }
 }
-
+*/
 
 struct CategoryDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-      CategoryDetailsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+      NavigationStack {
+        CategoryDetailsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+      }
     }
 }

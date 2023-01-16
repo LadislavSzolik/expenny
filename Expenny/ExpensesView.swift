@@ -23,6 +23,7 @@ struct ExpensesView: View {
   @State private var isNewExpenseShown = false
   
   @State private var selectedCategory:String = "All"
+  @State private var selectedExpense: Expense = Expense()
   
     var body: some View {
       NavigationStack {
@@ -32,12 +33,7 @@ struct ExpensesView: View {
                 Section(header: SectionSegmentView(month: month.id, sum: month.reduce(0.0) {$0 + $1.amount})) {
                   ForEach(month) { expense in
                     NavigationLink {
-                      ExpenseDetailsView(
-                        expense: expense,
-                          expenseDate: Binding<Date>(get: {expense.timestamp ?? Date()}, set: {expense.timestamp = $0}),
-                                         expenseAmount: Binding<Double>(get: {expense.amount}, set: {expense.amount = $0}),
-                                         expenseCategory: Binding<Category>(get:{expense.category!}, set:{expense.category = $0})
-                      )
+                      ExpenseDetailsView(expense: expense)
                     } label: {
                       ExpenseRowView(expense: expense)
                     }
@@ -56,9 +52,7 @@ struct ExpensesView: View {
           .toolbar{
             ToolbarItem(placement: .primaryAction) {
               Menu {
-                NavigationLink ("Show categories") {
-                  CategoryDetailsView()
-                }
+              
                 Picker("Category", selection: $selectedCategory) {
                   Text("All").tag("All")
                   ForEach(categories) { category in
@@ -69,6 +63,9 @@ struct ExpensesView: View {
                   ? nil
                   : NSPredicate(format: "category.name == %@", selectedCategory)
                 }
+                NavigationLink ("Categories...") {
+                  CategoryDetailsView()
+                }
               } label: {
                 Label("Categories", systemImage: "ellipsis.circle")
               }
@@ -77,6 +74,8 @@ struct ExpensesView: View {
         }
       }
 }
+
+
 
 extension ExpensesView {
   private func deleteItems(at offsets: IndexSet, in section: Date) {
@@ -103,3 +102,53 @@ struct ExpensesView_Previews: PreviewProvider {
         ExpensesView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
+
+/*ExpenseDetailsView(
+  expense: expense,
+  expenseDate: Binding<Date>(get:{expense.timestamp ?? Date()}, set: {expense.timestamp = $0}),
+  expenseAmount: Binding<Double>(get:{expense.amount}, set: {expense.amount = $0}),
+  expenseCategory: Binding<Category>(get:{expense.category!}, set:{expense.category = $0})
+)*/
+
+
+/*
+ struct TesterView: View {
+   @Environment(\.dismiss) private var dismiss
+   @Environment(\.managedObjectContext) private var viewContext
+   var expense:Expense
+   @State private var expenseAmount:Double?
+   @State private var expenseDate:Date = Date()
+   var body: some View {
+     VStack {
+       DatePicker("Date", selection: $expenseDate, displayedComponents: [.date])
+       TextField("Amount", value: $expenseAmount, format: .number).keyboardType(.decimalPad).onAppear{
+         expenseAmount = expense.amount
+         expenseDate = expense.timestamp ?? Date()
+       }.onChange(of: expenseAmount) { newValue in
+         expense.amount = newValue ?? 0.0;
+         saveCoreDate()
+       }.onChange(of: expenseDate) { newValue in
+         expense.timestamp = newValue
+         saveCoreDate()
+       }
+       Button("Delete") {
+         deleteExpense()
+         dismiss()
+       }
+     }
+   }
+   
+   private func deleteExpense() {
+     viewContext.delete(expense)
+   }
+
+   private func saveCoreDate() {
+     do {
+         try viewContext.save()
+     } catch {
+         let nsError = error as NSError
+         fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+     }
+   }
+ }
+ */

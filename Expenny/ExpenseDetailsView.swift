@@ -9,43 +9,69 @@ import SwiftUI
 import CoreData
 
 struct ExpenseDetailsView: View {
-  
-  @Environment(\.managedObjectContext) private var viewContext
-  
   var expense: Expense
-  @Binding var expenseDate: Date
-  @Binding var expenseAmount: Double
-  @Binding var expenseCategory: Category
-  
-  //TODO: optimize fetching categories
+  @Environment(\.dismiss) private var dismiss
+  @Environment(\.managedObjectContext) private var viewContext
+  @State private var expenseDate: Date = Date()
+  @State private var expenseAmount: Double?
+  @State private var expenseCategory: Category?
+   
+  @FocusState private var amountFocused:Bool
   @FetchRequest(
     sortDescriptors: [NSSortDescriptor(keyPath: \Category.name, ascending: true) ],
       animation: .default)
-  private var categories: FetchedResults<Category>
+  private var categories: FetchedResults<Category>  //TODO: optimize fetching categories
   
   var body: some View {
       Form {
         Section {
           DatePicker("Date", selection: $expenseDate, displayedComponents: [.date])
-          TextField("Amount", value: $expenseAmount, format: .number).keyboardType(.decimalPad)
+          TextField("Amount", value: $expenseAmount, format: .number).keyboardType(.decimalPad).focused($amountFocused)
           Picker("Category", selection: $expenseCategory) {
             ForEach(categories) { category in
-              Text(category.name!).tag(category)
+              Text(category.name!).tag(Optional(category))
             }
           }
         }
         Section {
           Button("Delete expense", role: .destructive) {
-            
+            viewContext.delete(expense)
+            dismiss()
           }
         }
       }.scrollDismissesKeyboard(.interactively)
-        .navigationBarTitle("Expense",displayMode: .inline)
+      .onChange(of: expenseDate) { value in
+        expense.timestamp = value
+        updateExpense()
+      }
+      .onChange(of: expenseAmount) { value in
+        expense.amount = value ?? 0.0
+        updateExpense()
+      }
+      .onChange(of: expenseCategory) { value in
+        expense.category?.removeFromExpenses(expense)
+        expense.category = value
+        expenseCategory?.addToExpenses(expense)
+        updateExpense()
+      }
+      .onAppear{
+        expenseDate = expense.timestamp ?? Date()
+        expenseAmount = expense.amount
+        expenseCategory = expense.category! //TODO: Fix this unwrapping
+        amountFocused = true
+      }
+      .navigationBarTitle("Expense",displayMode: .inline)
+    
   }
-  
-  private func deleteExpense() {
-      viewContext.delete(expense)
+  private func updateExpense() {
+    do {
+        try viewContext.save()
+    } catch {
+        let nsError = error as NSError
+        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+    }
   }
+
 }
 
 
@@ -63,9 +89,6 @@ struct ExpenseDetailsView_Previews: PreviewProvider {
       }
       let expense = Expense(context: viewContext)
       expense.timestamp = Date()
-      let expDate = Binding.constant(Date())
-      let expAmount = Binding.constant(100.00)
-      let expCategory = Binding.constant(cat)
-      return ExpenseDetailsView(expense: expense, expenseDate:expDate, expenseAmount: expAmount, expenseCategory: expCategory ).environment(\.managedObjectContext, viewContext)
+      return ExpenseDetailsView(expense: expense ).environment(\.managedObjectContext, viewContext)
     }
 }

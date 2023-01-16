@@ -13,10 +13,10 @@ struct NewExpenseView: View {
   
   @Binding var isShown: Bool
   
-  @State private var amount: Double? = nil
+  @State private var amount: Double?
   @State private var dateSelection = Date()
-  @State private var selectedCategory: Category? = nil
-  
+  @State private var selectedCategory: Category?
+  @FocusState private var amountFocused:Bool
   @FetchRequest(
     sortDescriptors: [NSSortDescriptor(keyPath: \Category.name, ascending: true) ],
       animation: .default)
@@ -28,7 +28,7 @@ struct NewExpenseView: View {
           Section {
             DatePicker("Date", selection: $dateSelection, displayedComponents: [.date])
             
-            TextField("Amount", value: $amount, format: .number).keyboardType(.decimalPad)
+            TextField("Amount", value: $amount, format: .number).keyboardType(.decimalPad).focused($amountFocused)
                         
             if !categories.isEmpty {
               Picker("Category", selection: $selectedCategory) {
@@ -39,6 +39,7 @@ struct NewExpenseView: View {
                 if self.selectedCategory == nil {
                   self.selectedCategory = self.categories.first
                 }
+                amountFocused = true
               }
             } else {
               Label("Missing categories", systemImage: "info.circle").foregroundColor(.red)
