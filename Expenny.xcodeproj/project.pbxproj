@@ -13,6 +13,14 @@
 		9C223E6529742A5F0052A9D1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C223E6429742A5F0052A9D1 /* Preview Assets.xcassets */; };
 		9C223E6729742A5F0052A9D1 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E6629742A5F0052A9D1 /* Persistence.swift */; };
 		9C223E6A29742A5F0052A9D1 /* Expenny.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E6829742A5F0052A9D1 /* Expenny.xcdatamodeld */; };
+		9C223E7129742BAF0052A9D1 /* SectionSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E7029742BAF0052A9D1 /* SectionSegmentView.swift */; };
+		9C223E7329742BCA0052A9D1 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E7229742BCA0052A9D1 /* ExpensesView.swift */; };
+		9C223E7529742BE80052A9D1 /* ExpenseRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E7429742BE80052A9D1 /* ExpenseRowView.swift */; };
+		9C223E7729742C140052A9D1 /* ChartByCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E7629742C140052A9D1 /* ChartByCategoryView.swift */; };
+		9C223E7929742C290052A9D1 /* NewExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E7829742C290052A9D1 /* NewExpenseView.swift */; };
+		9C223E7B29742C3C0052A9D1 /* ExpenseDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E7A29742C3C0052A9D1 /* ExpenseDetailsView.swift */; };
+		9C223E7D29742C510052A9D1 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E7C29742C510052A9D1 /* CategoryDetailsView.swift */; };
+		9C223E7F29742C7B0052A9D1 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C223E7E29742C7B0052A9D1 /* SummaryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +31,14 @@
 		9C223E6429742A5F0052A9D1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9C223E6629742A5F0052A9D1 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		9C223E6929742A5F0052A9D1 /* Expenny.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Expenny.xcdatamodel; sourceTree = "<group>"; };
+		9C223E7029742BAF0052A9D1 /* SectionSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSegmentView.swift; sourceTree = "<group>"; };
+		9C223E7229742BCA0052A9D1 /* ExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesView.swift; sourceTree = "<group>"; };
+		9C223E7429742BE80052A9D1 /* ExpenseRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRowView.swift; sourceTree = "<group>"; };
+		9C223E7629742C140052A9D1 /* ChartByCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartByCategoryView.swift; sourceTree = "<group>"; };
+		9C223E7829742C290052A9D1 /* NewExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewExpenseView.swift; sourceTree = "<group>"; };
+		9C223E7A29742C3C0052A9D1 /* ExpenseDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailsView.swift; sourceTree = "<group>"; };
+		9C223E7C29742C510052A9D1 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
+		9C223E7E29742C7B0052A9D1 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,8 +73,16 @@
 			children = (
 				9C223E5D29742A5E0052A9D1 /* ExpennyApp.swift */,
 				9C223E5F29742A5E0052A9D1 /* ContentView.swift */,
-				9C223E6129742A5F0052A9D1 /* Assets.xcassets */,
+				9C223E7029742BAF0052A9D1 /* SectionSegmentView.swift */,
+				9C223E7229742BCA0052A9D1 /* ExpensesView.swift */,
+				9C223E7429742BE80052A9D1 /* ExpenseRowView.swift */,
+				9C223E7629742C140052A9D1 /* ChartByCategoryView.swift */,
+				9C223E7829742C290052A9D1 /* NewExpenseView.swift */,
+				9C223E7A29742C3C0052A9D1 /* ExpenseDetailsView.swift */,
+				9C223E7C29742C510052A9D1 /* CategoryDetailsView.swift */,
+				9C223E7E29742C7B0052A9D1 /* SummaryView.swift */,
 				9C223E6629742A5F0052A9D1 /* Persistence.swift */,
+				9C223E6129742A5F0052A9D1 /* Assets.xcassets */,
 				9C223E6829742A5F0052A9D1 /* Expenny.xcdatamodeld */,
 				9C223E6329742A5F0052A9D1 /* Preview Content */,
 			);
@@ -143,10 +167,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C223E7129742BAF0052A9D1 /* SectionSegmentView.swift in Sources */,
+				9C223E7D29742C510052A9D1 /* CategoryDetailsView.swift in Sources */,
+				9C223E7329742BCA0052A9D1 /* ExpensesView.swift in Sources */,
+				9C223E7729742C140052A9D1 /* ChartByCategoryView.swift in Sources */,
+				9C223E7529742BE80052A9D1 /* ExpenseRowView.swift in Sources */,
+				9C223E7F29742C7B0052A9D1 /* SummaryView.swift in Sources */,
 				9C223E6729742A5F0052A9D1 /* Persistence.swift in Sources */,
 				9C223E6029742A5E0052A9D1 /* ContentView.swift in Sources */,
+				9C223E7B29742C3C0052A9D1 /* ExpenseDetailsView.swift in Sources */,
 				9C223E5E29742A5E0052A9D1 /* ExpennyApp.swift in Sources */,
 				9C223E6A29742A5F0052A9D1 /* Expenny.xcdatamodeld in Sources */,
+				9C223E7929742C290052A9D1 /* NewExpenseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,11 +310,13 @@
 				DEVELOPMENT_TEAM = HK2W6XPHLH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Expenny;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,11 +341,13 @@
 				DEVELOPMENT_TEAM = HK2W6XPHLH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Expenny;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
