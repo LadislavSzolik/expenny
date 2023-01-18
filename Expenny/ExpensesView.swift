@@ -41,9 +41,9 @@ struct ExpensesView: View {
             HStack {
               Button("Add expense") {
                 isNewExpenseShown.toggle()
-              }.sheet(isPresented: $isNewExpenseShown) {
+              }.bold().sheet(isPresented: $isNewExpenseShown) {
                 NewExpenseView( isShown: $isNewExpenseShown)
-              }.bold().padding()
+              }.padding()
             }
           }.navigationTitle("Expenses")
           .toolbar{
