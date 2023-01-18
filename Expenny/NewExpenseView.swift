@@ -20,6 +20,7 @@ struct NewExpenseView: View {
   private var categories: FetchedResults<Category>
   
     var body: some View {
+      NavigationStack {
         Form {
           Section(footer: categories.isEmpty ? Text("You haven't created any categories yet.") : nil) {
             DatePicker("Date", selection: $dateSelection, displayedComponents: [.date])
@@ -50,6 +51,7 @@ struct NewExpenseView: View {
             }.disabled(amount == nil)
           }
         }
+      }
     }
   
   
@@ -70,8 +72,6 @@ struct NewExpenseView: View {
 
 struct NewExpenseView_Previews: PreviewProvider {
     static var previews: some View {
-      NavigationStack {
         NewExpenseView(isShown: Binding.constant(true)).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-      }
     }
 }

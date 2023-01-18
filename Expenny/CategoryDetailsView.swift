@@ -14,28 +14,33 @@ struct CategoryDetailsView: View {
       animation: .default)
   private var categories: FetchedResults<Category>
   @State private var editingCategoryName: String = ""
-  @State private var newCategoryName = String()
+  @State private var newCategoryName: String = ""
   @FocusState private var inputsFocused: Bool
-    var body: some View {
-        List {
-          ForEach(categories) { cat in
-            CategoryRow(category: cat, inputsFocused: $inputsFocused)
-          }.onDelete(perform: deleteCategory)
-          TextField("New category name", text: $newCategoryName).autocorrectionDisabled(true).onSubmit{
+  
+  var body: some View {
+      List {
+        ForEach(categories) { cat in
+          CategoryRow(category: cat, inputsFocused: $inputsFocused)
+        }.onDelete(perform: deleteCategory)
+        TextField("New category name", text: $newCategoryName)
+          .autocorrectionDisabled(true)
+          .onSubmit{
             saveCategory()
           }.focused($inputsFocused)
-         
-        }.navigationTitle("Categories").navigationBarTitleDisplayMode(.inline)
-        .toolbar{
-          if inputsFocused {
-            ToolbarItem {
-              Button("Done") {
-                inputsFocused = false
+      }.navigationTitle("Categories")
+      .toolbar{
+        if inputsFocused {
+          ToolbarItem {
+            Button("Done") {
+              if !newCategoryName.isEmpty {
+                saveCategory()
               }
+              inputsFocused = false
             }
           }
         }
-    }
+      }
+  }
   
   private func saveCategory() {
     let newCategory = Category(context: viewContext)
@@ -49,6 +54,7 @@ struct CategoryDetailsView: View {
       fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
     }
   }
+  
   private func deleteCategory(offsets: IndexSet) {
       withAnimation {
           offsets.map { categories[$0] }.forEach(viewContext.delete)
@@ -74,6 +80,7 @@ struct CategoryRow:View {
       category.name = value
       saveCategory()
     }.focused(inputsFocused)
+      .autocorrectionDisabled(true)
   }
   
   private func saveCategory() {
@@ -85,23 +92,6 @@ struct CategoryRow:View {
     }
   }
 }
-
-// MARK: Delete category - out of scope
-/*
-extension CategoryDetailsView {
-  private func deleteCategory(offsets: IndexSet) {
-      withAnimation {
-          offsets.map { categories[$0] }.forEach(viewContext.delete)
-          do {
-              try viewContext.save()
-          } catch {
-              let nsError = error as NSError
-              print("Error in DeleteItem: \(nsError), \(nsError.userInfo)")
-          }
-      }
-  }
-}
-*/
 
 struct CategoryDetailsView_Previews: PreviewProvider {
     static var previews: some View {

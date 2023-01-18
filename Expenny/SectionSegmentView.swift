@@ -14,7 +14,7 @@ struct SectionSegmentView: View {
       HStack {
         Text(month, formatter: expenseDateFormatter)
         Spacer()
-        Text("CHF \(String(format: "%.2f", sum))").bold()
+        Text("CHF \(String(sum))")      
       }
     }
 }
