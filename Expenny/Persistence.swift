@@ -10,7 +10,6 @@ import CoreData
 struct PersistenceController {
   static let shared:PersistenceController = PersistenceController()
 
-
     static var preview: PersistenceController = {
                   
       let result = PersistenceController(inMemory: true)
@@ -20,39 +19,67 @@ struct PersistenceController {
       //cat0.id = UUID()
       //cat0.name = "None"
       
-      let cat1 = Category(context: viewContext)
-      cat1.id = UUID()
-      cat1.name = "Food delivery"
+      let grocery = Category(context: viewContext)
+      grocery.id = UUID()
+      grocery.name = "Grocery"
       
-      let cat2 = Category(context: viewContext)
-      cat2.id = UUID()
-      cat2.name = "Clothes"
-      
-      
-      let cat3 = Category(context: viewContext)
-      cat3.id = UUID()
-      cat3.name = "Petrol"
+      let clothes = Category(context: viewContext)
+      clothes.id = UUID()
+      clothes.name = "New clothes"
       
       
+      let petrol = Category(context: viewContext)
+      petrol.id = UUID()
+      petrol.name = "Petrol"
+      
+      let retaurants = Category(context: viewContext)
+      retaurants.id = UUID()
+      retaurants.name = "Restaurants"
+      
+      let parking = Category(context: viewContext)
+      parking.id = UUID()
+      parking.name = "Parking"
+                      
       let item1 = Expense(context: viewContext)
-      item1.timestamp = Date().addingTimeInterval(24000)
-      item1.amount = 322.0
-      //item1.category = cat1
-      //cat1.addToExpenses(item1)
-      
+      item1.timestamp = getDateForString(for: "01-04-2023")
+      item1.amount = 80.0
       
       let item2 = Expense(context: viewContext)
-      item2.timestamp = Date().addingTimeInterval(20004000)
+      item2.timestamp = getDateForString(for: "01-11-2023")
       item2.amount = 352.0
-      item2.category = cat1
-      cat1.addToExpenses(item2)
-      
-      
+      item2.category = grocery
+      grocery.addToExpenses(item2)
+            
       let item3 = Expense(context: viewContext)
-      item3.timestamp = Date().addingTimeInterval(20004000)
-      item3.amount = 352.0
-      item3.category = cat2
-      cat2.addToExpenses(item3)
+      item3.timestamp = getDateForString(for: "01-11-2023")
+      item3.amount = 85.0
+      item3.category = petrol
+      petrol.addToExpenses(item3)
+      
+      let item4 = Expense(context: viewContext)
+      item4.timestamp = getDateForString(for: "01-11-2023")
+      item4.amount = 2.0
+      item4.category = parking
+      parking.addToExpenses(item4)
+      
+      let item5 = Expense(context: viewContext)
+      item5.timestamp = getDateForString(for: "01-11-2023")
+      item5.amount = 4.0
+      item5.category = parking
+      parking.addToExpenses(item5)
+      
+      let item6 = Expense(context: viewContext)
+      item6.timestamp = getDateForString(for: "01-18-2023")
+      item6.amount = 240.0
+      item6.category = retaurants
+      retaurants.addToExpenses(item5)
+      
+      
+      let item7 = Expense(context: viewContext)
+      item7.timestamp = getDateForString(for: "12-27-2022")
+      item7.amount = 499
+      item7.category = clothes
+      clothes.addToExpenses(item7)
       
       /*
       for t in 0..<10 {
@@ -101,6 +128,12 @@ struct PersistenceController {
         container.viewContext.automaticallyMergesChangesFromParent = true
       
     }
+}
+
+private func getDateForString(for dateString: String ) -> Date {
+  let dateFormatter = DateFormatter()
+  dateFormatter.dateFormat = "MM-dd-yyyy"
+  return dateFormatter.date(from: dateString) ?? Date()
 }
 
 /*
