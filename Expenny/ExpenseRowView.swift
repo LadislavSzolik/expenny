@@ -11,28 +11,29 @@ struct ExpenseRowView: View {
   
   @ObservedObject
   var expense:Expense
-  
-  private let expenseDateFormatter: DateFormatter = {
-      let formatter = DateFormatter()
-    formatter.setLocalizedDateFormatFromTemplate("dd MMM")
-      return formatter
-  }()
-  
-  
-    var body: some View {
-      HStack {
-        Text(expense.timestamp ?? Date(), formatter: expenseDateFormatter ).foregroundColor(.gray)
-        Spacer()
-        VStack(alignment:.trailing) {
-          HStack{
-            Text("CHF")
-            Text(expense.amount.formatted())
-          }
-          Text(expense.category?.name ?? "").foregroundColor(.gray).font(.subheadline)
+      
+  var body: some View {
+    HStack {
+      Text(expense.timestamp ?? Date(), formatter: expenseDateFormatter ).foregroundColor(.gray)
+      Spacer()
+      VStack(alignment:.trailing) {
+        HStack{
+          Text("CHF")
+          Text(expense.amount.formatted())
+        }
+        if let category = expense.category {
+          Text(category.name ?? "").foregroundColor(.gray).font(.subheadline)
         }
       }
     }
+  }
 }
+
+private let expenseDateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+  formatter.setLocalizedDateFormatFromTemplate("dd MMM")
+    return formatter
+}()
 
 struct ExpenseRowView_Previews: PreviewProvider {
     static var previews: some View {

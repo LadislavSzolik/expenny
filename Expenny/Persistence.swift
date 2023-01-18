@@ -8,11 +8,18 @@
 import CoreData
 
 struct PersistenceController {
-    static let shared = PersistenceController()
+  static let shared:PersistenceController = PersistenceController()
+
 
     static var preview: PersistenceController = {
+                  
       let result = PersistenceController(inMemory: true)
       let viewContext = result.container.viewContext
+      
+      //let cat0 = Category(context: viewContext)
+      //cat0.id = UUID()
+      //cat0.name = "None"
+      
       let cat1 = Category(context: viewContext)
       cat1.id = UUID()
       cat1.name = "Food delivery"
@@ -30,8 +37,8 @@ struct PersistenceController {
       let item1 = Expense(context: viewContext)
       item1.timestamp = Date().addingTimeInterval(24000)
       item1.amount = 322.0
-      item1.category = cat1
-      cat1.addToExpenses(item1)
+      //item1.category = cat1
+      //cat1.addToExpenses(item1)
       
       
       let item2 = Expense(context: viewContext)
@@ -47,14 +54,14 @@ struct PersistenceController {
       item3.category = cat2
       cat2.addToExpenses(item3)
       
-      
+      /*
       for t in 0..<10 {
         let item = Expense(context: viewContext)
         item.timestamp = Calendar.current.date(byAdding: DateComponents(month: -t), to: Date())
         item.amount = 352.0
         item.category = cat2
         cat2.addToExpenses(item)
-      }
+      }*/
     
         do {
             try viewContext.save()
@@ -94,6 +101,33 @@ struct PersistenceController {
         container.viewContext.automaticallyMergesChangesFromParent = true
       
     }
-  
-  
 }
+
+/*
+ static let shared:PersistenceController = {
+   let persistenceController = PersistenceController()
+   
+   let preloadedKey = "didPrealoadData"
+   
+   let userDefaults = UserDefaults.standard
+   
+   if userDefaults.bool(forKey: preloadedKey) == false {
+     
+     let backgroundContext = persistenceController.container.newBackgroundContext()
+     
+     backgroundContext.perform {
+       let cat1 = Category(context: backgroundContext)
+       cat1.id = UUID()
+       cat1.name = "None"
+       do {
+         try backgroundContext.save()
+         userDefaults.set(true, forKey: preloadedKey)
+       } catch {
+         let nsError = error as NSError
+         fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+       }
+     }
+   }
+   return persistenceController
+ }()
+ */

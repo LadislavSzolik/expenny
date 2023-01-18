@@ -9,19 +9,16 @@ import SwiftUI
 
 struct ExpensesView: View {
   @Environment(\.managedObjectContext) private var viewContext
-  
   @SectionedFetchRequest<Date, Expense>(
     sectionIdentifier: \.monthAndYear,
       sortDescriptors: [NSSortDescriptor(keyPath: \Expense.timestamp, ascending: false) ])
   private var expensesByMonth: SectionedFetchResults<Date, Expense>
-  
   @FetchRequest(
     sortDescriptors: [NSSortDescriptor(keyPath: \Category.name, ascending: true) ],
-      animation: .default)
+      animation: .default
+  )
   private var categories: FetchedResults<Category>
-  
   @State private var isNewExpenseShown = false
-  
   @State private var selectedCategory:String = "All"
   @State private var selectedExpense: Expense = Expense()
   
@@ -50,25 +47,25 @@ struct ExpensesView: View {
             }
           }.navigationTitle("Expenses")
           .toolbar{
+            ToolbarItem{
+              Picker("Filter category", selection: $selectedCategory) {
+                Text("All").tag("All")
+                ForEach(categories) { category in
+                  Text(category.name!).tag(category.name!)
+                }
+              }.onChange(of:selectedCategory) { value in
+                expensesByMonth.nsPredicate = value == "All"
+                ? nil
+                : NSPredicate(format: "category.name == %@", selectedCategory)
+              }.pickerStyle(.menu)
+            }
             ToolbarItem(placement: .primaryAction) {
-              Menu {
               
-                Picker("Category", selection: $selectedCategory) {
-                  Text("All").tag("All")
-                  ForEach(categories) { category in
-                    Text(category.name!).tag(category.name!)
-                  }
-                }.onChange(of:selectedCategory) { value in
-                  expensesByMonth.nsPredicate = value == "All"
-                  ? nil
-                  : NSPredicate(format: "category.name == %@", selectedCategory)
-                }
-                NavigationLink ("Categories...") {
+                NavigationLink  {
                   CategoryDetailsView()
+                } label: {
+                Label("Categories", systemImage: "tag")
                 }
-              } label: {
-                Label("Categories", systemImage: "ellipsis.circle")
-              }
             }
           }
         }

@@ -20,7 +20,7 @@ struct CategoryDetailsView: View {
         List {
           ForEach(categories) { cat in
             CategoryRow(category: cat, inputsFocused: $inputsFocused)
-          }
+          }.onDelete(perform: deleteCategory)
           TextField("New category name", text: $newCategoryName).autocorrectionDisabled(true).onSubmit{
             saveCategory()
           }.focused($inputsFocused)
@@ -48,6 +48,17 @@ struct CategoryDetailsView: View {
       let nsError = error as NSError
       fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
     }
+  }
+  private func deleteCategory(offsets: IndexSet) {
+      withAnimation {
+          offsets.map { categories[$0] }.forEach(viewContext.delete)
+          do {
+              try viewContext.save()
+          } catch {
+              let nsError = error as NSError
+              print("Error in DeleteItem: \(nsError), \(nsError.userInfo)")
+          }
+      }
   }
 }
 
