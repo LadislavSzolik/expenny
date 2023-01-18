@@ -29,7 +29,7 @@ struct ExpenseDetailsView: View {
           Picker("Category", selection: $expenseCategory) {
             Text("None").tag(nil as Category?)
             ForEach(categories) { category in
-              Text(category.name!).tag(Optional(category))
+              Text(category.name ?? "").tag(Optional(category))
             }
           }
         }
