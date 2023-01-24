@@ -38,12 +38,23 @@ struct ExpensesView: View {
                 }
               }
             }
-            HStack {
-              Button("Add expense") {
-                isNewExpenseShown.toggle()
-              }.bold().sheet(isPresented: $isNewExpenseShown) {
-                NewExpenseView( isShown: $isNewExpenseShown)
-              }.padding()
+            VStack{
+              if categories.isEmpty {
+                Text("Start by adding categories")
+              }
+              HStack {
+                Button("Add expense") {
+                  isNewExpenseShown.toggle()
+                }.bold().sheet(isPresented: $isNewExpenseShown) {
+                  NewExpenseView( isShown: $isNewExpenseShown)
+                }.padding().disabled(categories.isEmpty)
+                Spacer()
+                NavigationLink  {
+                  CategoryDetailsView()
+                } label: {
+                  Text("Add categories").padding().bold()
+                }
+              }
             }
           }.navigationTitle("Expenses")
           .toolbar{
@@ -59,14 +70,14 @@ struct ExpensesView: View {
                 : NSPredicate(format: "category.name == %@", selectedCategory)
               }.pickerStyle(.menu)
             }
-            ToolbarItem(placement: .primaryAction) {
+            /*ToolbarItem(placement: .primaryAction) {
               
                 NavigationLink  {
                   CategoryDetailsView()
                 } label: {
                 Label("Categories", systemImage: "tag")
                 }
-            }
+            } */
           }
         }
       }
@@ -77,7 +88,6 @@ struct ExpensesView: View {
 extension ExpensesView {
   private func deleteItems(at offsets: IndexSet, in section: Date) {
     
-    //TODO: find a better way to get index    
     let segmentIndex = expensesByMonth.firstIndex { sec in
       sec.id == section
     }
